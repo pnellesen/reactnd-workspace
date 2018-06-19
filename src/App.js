@@ -106,9 +106,21 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h2>Favorite Movies</h2>
+      	<FavoriteList profiles={profiles} users={users} movies={movies}/>
       </div>
     );
   }
 }
 
+class FavoriteList extends Component {
+  render() {
+    let faveMovieList = this.props.profiles.map( (profileInfo) => 
+     	<p key={profileInfo.id}>username: {this.props.users[profileInfo.userID].name} - favorite: {this.props.movies[profileInfo.favoriteMovieID].name}</p>
+	);
+    console.log("List? %O", faveMovieList);
+    return (
+      <div>{faveMovieList}</div>
+    )
+  }
+}
 export default App;
