@@ -113,8 +113,7 @@ class App extends Component {
 }
 class PopularMovies extends Component {
   render() {
-    let movieIdList = Object.keys(movies);
-    let profileMovieList = profiles.filter(profileInfo => movieIdList.indexOf(profileInfo.favoriteMovieID) >= 0);
+    let movieIdList = Object.keys(movies);// need an array to use map() or filter().
     return (
           movieIdList.map(movieInfo => (
           	<div>
@@ -136,8 +135,8 @@ class MovieTitle extends Component {
 }
 class MovieUserList extends Component {
 	render() {
-      	let userNameList = profiles.filter(profileInfo => this.props.movieId == profileInfo.favoriteMovieID).map(profileInfo => <li>{users[profileInfo.userID].name}</li>);
-		if (userNameList.length == 0) userNameList = (<li>No users liked this movie</li>);                                                                                                                   
+      	let userNameList = profiles.filter(profileInfo => this.props.movieId == profileInfo.favoriteMovieID).map(profileInfo => <li key={profileInfo.userID}>{users[profileInfo.userID].name}</li>);
+		if (userNameList.length == 0) userNameList = (<li key={0}>No users liked this movie</li>);                                                                                                                   
     	return(
           <ol>
           {userNameList}
