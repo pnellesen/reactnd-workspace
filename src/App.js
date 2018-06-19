@@ -106,9 +106,44 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
+      	<PopularMovies/>
       </div>
     );
   }
+}
+class PopularMovies extends Component {
+  render() {
+    let movieIdList = Object.keys(movies);
+    let profileMovieList = profiles.filter(profileInfo => movieIdList.indexOf(profileInfo.favoriteMovieID) >= 0);
+    return (
+          movieIdList.map(movieInfo => (
+          	<div>
+      		<MovieTitle movieId={movies[movieInfo].id}/>
+            <MovieUserList movieId={movies[movieInfo].id}/>
+      		</div>
+      	  ))
+    )
+  }
+}
+class MovieTitle extends Component {
+  render() {
+    // get the movie title from movies, given an id
+    const movieTitle = movies[this.props.movieId] ? movies[this.props.movieId].name : ('Movie Title for id ' + this.props.movieId + ' not found');
+    return (
+      <h2 key={this.props.movieId}>{movieTitle}</h2>
+     );
+  }
+}
+class MovieUserList extends Component {
+	render() {
+      	let userNameList = profiles.filter(profileInfo => this.props.movieId == profileInfo.favoriteMovieID).map(profileInfo => <li>{users[profileInfo.userID].name}</li>);
+		if (userNameList.length == 0) userNameList = (<li>No users liked this movie</li>);                                                                                                                   
+    	return(
+          <ol>
+          {userNameList}
+          </ol>
+        )
+    }
 }
 
 export default App;
