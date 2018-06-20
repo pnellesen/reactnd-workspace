@@ -1,41 +1,51 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-/*
-const value1 = Math.floor(Math.random() * 100);
-const value2 = Math.floor(Math.random() * 100);
-const value3 = Math.floor(Math.random() * 100);
-const proposedAnswer = Math.floor(Math.random() * 3) + value1 + value2 + value3;
-const numQuestions = 0;
-const numCorrect = 0;
-*/
+
 class App extends Component {
-  state = {
-  	value1 : Math.floor(Math.random() * 100),
-	value2 : Math.floor(Math.random() * 100),
-	value3 : Math.floor(Math.random() * 100),
+  
+  getRandomVal = (seed) => {return Math.floor(Math.random() * seed)};
+  
+  initialState = {
+    value1 : this.getRandomVal(100),
+	value2 : this.getRandomVal(100),
+	value3 : this.getRandomVal(100),
 	numQuestions : 0,
 	numCorrect : 0
   }
+
+  state = this.initialState;
+  
+  proposedAnswer = null;
+
   createNewQuestion() {
   	this.setState((prevState) => ({
-  		value1 : Math.floor(Math.random() * 100),
-		value2 : Math.floor(Math.random() * 100),
-		value3 : Math.floor(Math.random() * 100),
-    	numQuestions: prevState.numQuestion++
+  		value1 : this.getRandomVal(100),
+		value2 : this.getRandomVal(100),
+		value3 : this.getRandomVal(100),
+    	numQuestions: prevState.numQuestions + 1
   	}))
   }
-  checkAnswer(answer) {
-    
-  	if (true) {
+
+  checkAnswer(userAnswer) {
+    const correctAnswer = this.state.value1 + this.state.value2 + this.state.value3;
+    console.log("Check answer: proposedAnswer: " + this.proposedAnswer + " - correctAnswer: " + correctAnswer);
+  	if (userAnswer == (correctAnswer == this.proposedAnswer)) {
     	this.setState((prevState) => ({
-        	numCorrect: prevState.numCorrect++
+        	numCorrect: prevState.numCorrect + 1
         }))
     }
     this.createNewQuestion()
   }
-  render() {
-  	let proposedAnswer = Math.floor(Math.random() * 3) + this.state.value1 + this.state.value2 + this.state.value3;
+
+  reset() {
+    // From reactjs.org docs - https://reactjs.org/docs/react-component.html#setstate
+    // You may optionally pass an object as the first argument to setState() instead of a function
+  	this.setState(this.initialState);
+  }
+  
+render() {
+    this.proposedAnswer = this.getRandomVal(3) + this.state.value1 + this.state.value2 + this.state.value3;
     return (
       <div className="App">
         <header className="App-header">
@@ -45,16 +55,18 @@ class App extends Component {
         <div className="game">
           <h2>Mental Math</h2>
           <div className="equation">
-            <p className="text">{`${this.state.value1} + ${this.state.value2} + ${this.state.value3} = ${proposedAnswer}`}</p>
+            <p className="text">{`${this.state.value1} + ${this.state.value2} + ${this.state.value3} = ${this.proposedAnswer}`}</p>
           </div>
-          <button>True</button>
-          <button>False</button>
+          <button onClick={() => this.checkAnswer(true)}>True</button>
+          <button onClick={() => this.checkAnswer(false)}>False</button>
           <p className="text">
             Your Score: {this.state.numCorrect}/{this.state.numQuestions}
           </p>
+		<button onClick={() => this.reset()}>Reset</button>
         </div>
       </div>
     );
+
   }
 }
 
