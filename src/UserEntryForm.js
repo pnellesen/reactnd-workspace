@@ -1,7 +1,7 @@
 // This copied from Controlled Component exercise 2 - is almost exactly what we'll need for the name fields
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddUserButton from './AddUserButton.js';
+import SubmitButton from './SubmitButton.js';
 import './EntryForm.css';
 
 class UserEntryForm extends React.Component {
@@ -12,9 +12,6 @@ class UserEntryForm extends React.Component {
     gamesplayed: 0
   }
   handleChange = (event) => {
-    //const fieldName = event.target.name;
-    
-    //const fieldVal = event.target.value;
     event.persist();
     this.setState((prevState) => {// This from https://stackoverflow.com/a/38779819/3088853
       prevState[event.target.name] = event.target.value;
@@ -30,8 +27,7 @@ class UserEntryForm extends React.Component {
 inputIsEmpty = () => {
     return (this.state.firstname === '' || this.state.lastname === '' || this.state.username === '');
   };
-//(e) => this.props.handleChange("tags", e)
-  render() {
+render() {
     return (
     	<form onSubmit={this.submit}>
           <input
@@ -55,7 +51,7 @@ inputIsEmpty = () => {
             value={this.state.username}
             onChange={this.handleChange}
           />
-    	  <AddUserButton disabled={this.inputIsEmpty()} buttonText={'Add User'}/>
+    	  <SubmitButton disabled={this.inputIsEmpty()} buttonText={'Add User'}/>
         </form>
       )
   }

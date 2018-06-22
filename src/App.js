@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import UserEntryForm from './UserEntryForm.js';
 import UserList from './UserList.js';
+import SubmitButton from './SubmitButton.js';
 import logo from './logo.svg';
 import './App.css';
+import './EntryForm.css';
 
 /*
 This exercise will help you put together and practice all of the concepts you've
@@ -15,16 +17,28 @@ The instructions for this project are located in the `instructions.md` file.
 class App extends Component {
   state = {
   	users: [],
-    showGamesPlayed: true
+    showGamesPlayed: true,
+    invalidUserName: ''
   }
 
   addUser = (user) => {
-  	this.setState(oldState => ({
-      users: [...oldState.users, {firstname: user.firstname, lastname: user.lastname, username: user.username, gamesplayed: user.gamesplayed}]
-      // this has... odd... behavior: users: [...oldState.users, user]
-    }));
+    this.checkUserName(user) ? (
+      this.setState(oldState => ({
+        users: [...oldState.users, {...user}],
+        invalidUserName: ''
+      }))
+      ) : (
+      	this.setState({invalidUserName: user.username})
+      )
   }
-
+  checkUserName(user) {
+    	return (
+    		this.state.users.filter((existingUser) => (existingUser.username == user.username)).length == 0
+    	)
+    }
+  toggleGamesPlayed() {
+    this.setState(prevState => ({showGamesPlayed: !prevState.showGamesPlayed}))
+  }
   render() {
     return (
       <div className="App">
@@ -33,7 +47,9 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
        <UserEntryForm submit={(user) => this.addUser(user)}/>
-  		<UserList users={this.state.users} showGamesPlayed={this.state.showGamesPlayed}/>     
+  		<UserList users={this.state.users} showGamesPlayed={this.state.showGamesPlayed}/>
+		<div><SubmitButton onClick={() => {this.toggleGamesPlayed()}} buttonText={this.state.showGamesPlayed ? 'Hide games played' : 'Show games played'}/></div>
+		<div className={this.state.invalidUserName != '' ? 'error_show' : 'error_hide'}>Username {this.state.invalidUserName} already exists</div>
       </div>
     );
   }

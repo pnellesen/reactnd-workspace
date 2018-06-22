@@ -47,7 +47,7 @@ functions:
 ========================================================
 When someone clicks "Add" but the username already
 exists, the app should not allow for a duplicate user to be added and should
-show an error message instead.
+show an error message instead. - DONE
 
 -- this message in UserEntryForm.js? 
 	user clicks add user
@@ -58,7 +58,7 @@ show an error message instead.
 The app should also display a list of users, specifically their usernames
 and the number of games they've played (which is defaulted to 0). If someone
 tries to add a user when one of the fields is empty, the "Add" button should
-be disabled.
+be disabled. - DONE
 
 component:
 	UserList.js
