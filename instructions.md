@@ -5,23 +5,89 @@ website where we should be able to add users and display users, along with the
 number of games he/she has played.
 
 **Task**: Create a React app that lets us add a user's first name, last name, and
-username. When the user is added, the number of games that he/she has played is
+username. 
+
+State (in main App):
+	users: [
+    	{	firstname: '',
+        	lastname: '',
+            username: '',
+            gamesplayed: 0,
+        }
+    ],
+    showGamesPlayed: true
+    
+	
+Components:
+	UserEntryForm.js
+	AddUserButton.js
+    	button disabled if the any of the fields in UserEntryForm is empty;
+    
+    
+===================================================================
+When the user is added, the number of games that he/she has played is
 defaulted to 0. Each username has to be unique, so we cannot add multiple users
-with the same username. When someone clicks "Add" but the username already
+with the same username.
+
+functions:
+	addUser(user) {
+    	if (!checkUserName(user.username)) {
+        	setState(prevState) => (
+            	users: prevState.users.push(user)
+             )
+             return true;
+        } else {
+        	return false;
+        }
+    }
+    checkUserName(username) {
+    	return (this.state.users.hasOwnProperty(username))
+    }
+    
+========================================================
+When someone clicks "Add" but the username already
 exists, the app should not allow for a duplicate user to be added and should
 show an error message instead.
 
+-- this message in UserEntryForm.js? 
+	user clicks add user
+    add user returns false
+    error message displays until user changes username?
+    
+==================================================
 The app should also display a list of users, specifically their usernames
 and the number of games they've played (which is defaulted to 0). If someone
 tries to add a user when one of the fields is empty, the "Add" button should
 be disabled.
 
+component:
+	UserList.js
+    
+=======================================================
 We should also have a button that lets us toggle between showing and hiding
 the number of games the users have played. For example, the button can start
 out as "Hide the Number of Games Played" and the app can display "username1
 played 0 games." Clicking that button should change the button text to
 "Show the Number of Games Played" and the displayed username and score can be
 changed to "username1 played \* games."
+
+component:
+	ToggleGamesPlayedButton.js
+		props: toggleGamesPlayed={() => this.toggleGamesPlayed()}
+        
+    UserList.js
+    	props: showGamesPlayed={this.state.showGamesPlayed}
+        
+        
+
+function (in App.js):
+    toggleGamesPlayed () => (
+    	setState(prevState) => ({
+        	showGamesPlayed: !prevState.showGamesPlayed;
+        })
+    )
+
+=============================================================================
 
 State management is at the heart of React. It allows us to have a single source
 of truth for our entire application. That means that we don't need to make sure
